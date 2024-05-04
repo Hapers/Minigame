@@ -294,6 +294,7 @@ body{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    text-align: center;
     
 }
 
@@ -308,4 +309,8 @@ body{
     fill: #ffffff;
 
 }
+
+/* aim */
+
+
 
