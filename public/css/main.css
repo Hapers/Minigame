@@ -96,7 +96,7 @@ body {
     transition: background 0.5s ease;
 }
 .butyell:hover {
-    background: #ffffff; /* Updated hover background color */
+    background: #b1b1b1; /* Updated hover background color */
 }
 .game_icon{
     height: 120px;
@@ -208,7 +208,7 @@ p {
 
 
 #generateButton:hover {
-    background-color: #ffffff;
+    background: #b1b1b1;
 }
 body{
     display: block; /* Убедитесь, что body использует блочное отображение */
