@@ -309,3 +309,24 @@ body{
 
 }
 
+#inputText {
+    color: black;
+    border-radius: 25px;
+    background-color: rgb(255, 255, 255);
+    opacity: 0.8;
+    padding: 25px;
+    font-size: 25px;
+    width: 30%;
+}
+
+#inputText:focus,
+#inputText:hover {
+    background-color: rgb(255, 255, 255);
+    opacity: 1;
+}
+
+#title{
+    padding-bottom: 15px;
+    color: white;
+    font-size: 35px;
+}
