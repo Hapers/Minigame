@@ -1,7 +1,7 @@
 let currentArrows = []; // Массив для хранения текущего порядка стрелок
 let arrows100 = [];
 let timerId; // Идентификатор таймера
-let timeLeft = 60; // Оставшееся время в секундах
+let timeLeft =15; // Оставшееся время в секундах
 let correctAnswers = 0; // Счетчик правильных ответов
 let resetTimerAndCounter = false; // Флаг для определения, нужно ли сбрасывать таймер и счетчик
 const arrows = ['🢁', '🢃', '🢀', '🢂'];
@@ -13,15 +13,16 @@ document.getElementById('generateButton').addEventListener('click', function() {
     resetTimerAndCounter = true; // Изменяем флаг на true при нажатии на кнопку
     generateArrows(); // Вызываем функцию для генерации стрелок
 });
-document.addEventListener('keydown', checkKey);
-function checkKey(event) {
-    console.log('Key pressed:', event.key);
+document.addEventListener('keydown', function(event) {
+    // Prevent default action for arrow keys
+    if (keyToArrow[event.key]) {
+        event.preventDefault();
+    
     const key = event.key; // Получаем нажатую клавишу
     const pressedArrow = keyToArrow[key];
-    if(pressedArrow){
-        checkArrow(pressedArrow);
+    checkArrow(pressedArrow);
     }
-}
+});
 
 function updateTimer() {
     timeLeft--;
@@ -45,7 +46,7 @@ function generateArrows() {
     //     currentArrows.push(arrow);
     // }
     
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < Math.floor(Math.random() * (7 - 4 + 1) + 4); i++) {
         const randomIndex = Math.floor(Math.random() * arrows.length); // Генерируем случайный индекс
         const arrow = arrows[randomIndex]; // Выбираем стр��лку по случайному индексу 
         currentArrows.push(arrow); // Добавляем стрелку в текущий массив
@@ -74,30 +75,42 @@ function generateArrows() {
         document.getElementById('correctAnswersDisplay').textContent = `Correct answers: ${correctAnswers}`;
 
         // Сбрасываем время и запускаем новый таймер
-        timeLeft = 60; // Установите время обратно на 60 секунд
+        timeLeft = 20; // Установите время обратно на 60 секунд
         timerId = setInterval(updateTimer, 1000); // Запускаем новый таймер
         // Сбрасываем флаг, чтобы он не влиял на следующие вызовы generateArrows
         resetTimerAndCounter = false;
     }
+    if(document.getElementById('destroy')){
     document.getElementById('destroy').remove();
     document.getElementById('generateButtonContainer').remove();
+    }
 }
+
 
 // Соз��аем объект для соответствия между event.key и символами стрелок
 const keyToArrow = {
     "ArrowUp": "🢁",
     "ArrowDown": "🢃",
     "ArrowLeft": "🢀",
-    "ArrowRight": "🢂"
+    "ArrowRight": "🢂",
+    'w': "🢁",
+    's': "🢃",
+    'a': "🢀",
+    'd': "🢂",
+    'W': "🢁",
+    'S': "🢃",
+    'A': "🢀",
+    'D': "🢂"
 };
 
 function checkArrow(pressedArrow) {
-    const expectedArrow = currentArrows.shift(); // Берем ожидаемую стрелку из массива
+    const index = document.getElementById('arrowsContainer').querySelectorAll('.green').length;
+
+    const expectedArrow = currentArrows[index]; // Берем ожидаемую стрелку из массива
     console.log('pressedArrow:', pressedArrow);
     console.log('expectedArrow:', expectedArrow);
     const arrowElements = document.querySelectorAll('#arrowsContainer span');
         //const index = Array.from(arrowElements).findIndex(el => el.textContent === expectedArrow);
-    const index = document.getElementById('arrowsContainer').querySelectorAll('.green').length;
 
     if (pressedArrow === expectedArrow) {
         // Окрашиваем стрелку в зеленый цвет
@@ -111,11 +124,12 @@ function checkArrow(pressedArrow) {
             //arrowElements[index].style.display = 'none';
             //arrowElements[index].remove();
         }
-
-        // Если в массиве не осталось стрелок, увеличиваем счетчик
-        if (currentArrows.length === 0) {
+        if (currentArrows.length-1 == index) {
             correctAnswers++;
             document.getElementById('correctAnswersDisplay').textContent = `Correct answers: ${correctAnswers}`;
+            timeLeft+=2;
+            document.getElementById('timerDisplay').textContent = `Remaining time: ${timeLeft} seconds`
+            generateArrows();
         }
     }
     else if(index > 0) {
@@ -130,9 +144,6 @@ function checkArrow(pressedArrow) {
         arrowElements[index -1].className = '';
         
     }
-
+    console.log(currentArrows.length-1 == index);
     // Если в массиве не осталось стрелок, генерируем новый список
-    if (currentArrows.length === 0) {
-        generateArrows();
-    }
 }
