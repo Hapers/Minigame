@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 const port = 3000;
+
 
 app.use(express.static('public'));
 
@@ -31,3 +33,8 @@ app.get('/Profile', (req, res) => {
 app.listen(port, () => {
  console.log(`Server running at http://localhost:${port}`);
 });
+
+app.get('/get-sentence', (req, res) => {
+    let index = Math.floor(Math.random() * 100);
+    res.send({sentence: fs.readFileSync('public/docs/texts.txt', 'utf8').split('\n')[index]});
+})

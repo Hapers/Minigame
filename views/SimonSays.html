@@ -17,31 +17,38 @@
         </div>
     </div>
     <div class="example">
-        <div id="destroy">
-            <svg width="300" height="220" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg" style="padding: 20px; margin: 10px;">
-                <title>Sequence Memory</title>
-                <rect width="64" height="64" rx="10" class="kubew"></rect>
-                <rect x="70" width="64" height="64" rx="10" class="kubew"></rect>
-                <rect y="70" width="64" height="64" rx="10" class="kubew"></rect>
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                     d="M118 80H80L80 118H118V80ZM80 70C74.4772 70 70 74.4772 70 80V118C70 123.523 74.4772 128 80 128H118C123.523 128 128 123.523 128 118V80C128 74.4772 123.523 70 118 70H80Z" class="kubewp">
-                </path>
-            </svg>
-        </div>
-        <div id="arrowsContainer"></div>
-        <div id="timerDisplay">Sequence Memory Test</div>
-        <div id="correctAnswersDisplay">Memorize the pattern.</div>
-        <div id="generateButtonContainer">
-            <button id="generateButton">Start</button>
-        </div>
+    <h1>Simon Game</h1>
+ 
+    <div id="simon-board">
+        <button class="simon-btn top-left"
+                onclick="handleClick(this)"
+        data-color="1" disabled></button>
+        <button class="simon-btn top-right"
+                onclick="handleClick(this)"
+        data-color="2" disabled></button>
+        <button class="simon-btn bottom-left"
+                onclick="handleClick(this)"
+        data-color="3" disabled></button>
+        <button class="simon-btn bottom-right"
+                onclick="handleClick(this)"
+        data-color="4" disabled></button>
     </div>
+ 
+    <div id="level">
+        <span>Level: 
+              <span class="level-count">-</span>
+          </span>
+    </div>
+    <button id="power-btn" onclick="togglePower()">Start</button>
+
+    </div>
+ 
     <div class="stat">
         <div class="css-ocvuti">
-                <h2>Aim Trainer</h2>
-                <p>Click the targets as quickly and accurately as you can. </p>
-                <p>This tests reflexes and hand-eye coordination.</p>
-                <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
-                <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
+                <h2>Simon Says</h2>
+                <p>Memorize the sequence of buttons that light up, then press them in order </p>
+                <p>Every time you finish the pattern, it gets longer.</p>
+                <p>Make a mistake, and the test is over.</p>
         </div>
         <div class="css-ocvuti">           
                 <h2>Aim Trainer</h2>
@@ -52,6 +59,6 @@
         </div>
     </div>
 
-    <script src="/js/StratagemHero.js"></script>
+    <script src="/js/SimonSays.js"></script>
 </body>
 </html>
