@@ -12,7 +12,8 @@
         <h2 id="gameOver">Game Over</h2>
         <h2 id="gameScore"></h2>
         <h2 id="final"></h2>
-        <a href="#">Click anywhere to play again</a>
+        <a href="#" id="playAgain">Try again</a>
+        <a href="/" id="backhome">Home</a>
         <canvas id="canvas"></canvas>
         <div class="cursor"></div>
     </div>
@@ -21,15 +22,10 @@
                 <h2>Aim Trainer</h2>
                 <p>Click the targets as quickly and accurately as you can. </p>
                 <p>This tests reflexes and hand-eye coordination.</p>
-                <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
+                <p>Once you've clicked 10 targets, your score and average time per target will be displayed.</p>
                 <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
         </div>
-        <div class="css-ocvuti">           
-                <h2>Aim Trainer</h2>
-                <p>Click the targets as quickly and accurately as you can. </p>
-                <p>This tests reflexes and hand-eye coordination.</p>
-                <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
-                <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
+        <div id="plotlib" class="css-ocvuti">           
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"
@@ -42,4 +38,53 @@
 
     <script src="/js/AimTrainer.js"></script>
 </body>
+ <script>
+    document.addEventListener('DOMContentLoaded',function() {
+    x =[];
+    y =[];
+    fetch('/get-aimTrainer')
+        .then(response => response.text())
+        .then(data => {
+            data = JSON.parse(data);
+            data.forEach(element => {
+                x.push(element.date);
+                y.push(element.score);
+            });
+        })
+        .catch((error) => {
+            console.error('Error getting the response:', error);
+        })
+
+    var data = {
+          y: y,
+          x: x,
+          type: 'scatter'
+      };
+      
+      var layout = {
+          yaxis: {
+              range: [1.5, 6.5],
+          },
+          xaxis: {
+              showticklabels: false
+          },
+          width: calculateDesiredWidth(45) > 600 ? calculateDesiredWidth(45) : 600,
+          height: 350,
+          margin: {
+              l: 10,
+              r: 30,
+              t: 50,
+              b: 50 
+          }
+      };
+      
+      var config = {
+          showLink: true,
+          plotlyServerURL: "https://chart-studio.plotly.com", 
+          staticPlot: true
+      };
+
+      Plotly.newPlot('plotlib', [data], layout, config);
+    });
+  </script>
 </html>

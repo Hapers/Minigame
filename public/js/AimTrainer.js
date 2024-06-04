@@ -5,6 +5,7 @@ const title = document.querySelector('#title');
 const body = document.querySelector('#bodygame');
 const start = document.querySelector('#start');
 const gameOver = document.querySelector('#gameOver');
+const backhome = document.querySelector('#backhome');
 const final = document.querySelector('#final');
 const btn = document.querySelector('a');
 
@@ -21,12 +22,14 @@ canvas.width = window_w;
 canvas.height = window_h;
 canvas.style.background = "#6c63ff";
 
-const tl = new TimelineMax();//using gsap js library
+const tl = new TimelineMax();
 gameOver.style.display = "none";
+backhome.style.display = "none";
 btn.style.display = "none";
 
 tl.fromTo(title, 1.7, { opacity: 0, x: "100%" }, { opacity: 1, x: "0%", ease: Power2.easInOut })
-    .fromTo(start, 1, { opacity: 0, y: "250%" }, { opacity: 0.7, y: "0%", ease: Power2.easInOut }, "-=1");
+.fromTo(start, 1, { opacity: 0, y: "250%" }, { opacity: 0.7, y: "0%", ease: Power2.easInOut }, "-=1");
+
 
 
 
@@ -91,6 +94,7 @@ circle.draw(ctx);
 function fadeOut() {
     tl.fromTo(title, 1, { opacity: 1, y: "0%" }, { opacity: 0, y: "-100%", ease: Power2.easInOut })
         .fromTo(start, 1, { opacity: 0.7, y: "0%" }, { opacity: 0, y: "-250%", ease: Power2.easInOut }, "-=1");
+    
 
     setTimeout(() => {
         title.style.display = 'none';
@@ -111,7 +115,8 @@ function trackScore() {
         }, 1500);
 
         gameOver.style.display = 'inherit';//show game over
-        tl.fromTo(gameOver, 1, { opacity: 0 }, { opacity: 1, ease: Power2.easInOut });
+        backhome.style.display = 'inherit';
+    
 
         if (missed == 0) {
             accuracy2 = 100;
@@ -135,9 +140,9 @@ function playAgain() {
     btn.style.display = "inherit";
     document.getElementById("gameScore").innerHTML = "Score: " + score + "<br>" + "<br>" + "Missed: " + missed;
     btn.style.animation = "fadeIn 2s";
-    document.addEventListener('click', () => {
+    document.getElementById('playAgain').addEventListener('click', () => {
         location.reload();
-    })
+    });
 }
 
 //event listener for mouse click, will start listening after 2.5s of refreshing the tab

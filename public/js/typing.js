@@ -90,3 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
         timerDisplay.textContent = (`Your WPM is: ${((characters/ timer)*12).toFixed(1)}`);
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/check_login')
+        .then(response => response.text())
+        .then(data => {
+            console.log(data)
+            if (data === '0') {
+                this.getElementById('profile').style.display = 'none';
+            }else{
+                this.getElementById('guest').style.display = 'none';
+            }
+        })
+        .catch((error) => {
+            console.error('Error getting the response:', error);
+        })
+    });

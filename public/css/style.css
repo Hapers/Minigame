@@ -12,7 +12,7 @@ body {
 
 
 
-/* Sidenav */
+
 .sidenav {
     background-color: #fff;
     color: #333;
@@ -77,9 +77,7 @@ body {
     width: 65%;
 }
 
-/* End */
 
-/* Main */
 .main {
     margin-top: 2%;
     margin-left: 29%;
@@ -159,8 +157,8 @@ body {
 .full-nav {
     display: flex;
     justify-content: space-between;
-    background: #ffffff; /* Updated background color */
-    color: #4a4a4a; /* Updated text color */
+    background: #ffffff; 
+    color: #4a4a4a; 
     width: 100%;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px 0px;
     font-size: 18px;
@@ -195,7 +193,7 @@ body {
 
 .styled-input {
     width: 300px;
-    padding: 8px; /* Уменьшено с 10px до 8px */
+    padding: 8px; 
     margin: 10px 0;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -204,14 +202,14 @@ body {
     transition: border-color 0.3s ease;
 }
 
-/* Стили при фокусе */
+
 .styled-input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Стили для тени при фокусе */
+
 .styled-input:focus +.styled-input:focus {
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
@@ -223,14 +221,14 @@ body {
     margin-top: 50px;
     margin: 30px 0px 0px;
     padding: 12px 30px;
-    background: #ffcc00; /* Updated background color */
+    background: #ffcc00;
     display: inline-block;
     border-radius: 3px; 
     font-weight: bold;
     font-size: inherit;
     font-family: inherit;
     line-height: inherit;
-    color: #4a4a4a; /* Updated text color */
+    color: #4a4a4a; 
     text-decoration: none;
     transition: background 0.5s ease;
 }
@@ -246,4 +244,3 @@ body {
 }
 
 
-/* End */

@@ -147,3 +147,20 @@ function checkArrow(pressedArrow) {
     console.log(currentArrows.length-1 == index);
     // Если в массиве не осталось стрелок, генерируем новый список
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/check_login')
+        .then(response => response.text())
+        .then(data => {
+            console.log(data)
+            if (data === '0') {
+                this.getElementById('profile').style.display = 'none';
+            }else{
+                this.getElementById('guest').style.display = 'none';
+            }
+        })
+        .catch((error) => {
+            console.error('Error getting the response:', error);
+        })
+    });

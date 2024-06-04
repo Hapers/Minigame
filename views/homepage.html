@@ -13,9 +13,13 @@
             <a href="/dashboard">HISTORY</a>
         </div>
         <div class="right-nav">
-            <a href="/Profile">PROFILE</a>
-            <a href="/signup">SIGN UP</a>
-            <a href="/login">LOGIN</a>
+            <div id="profile">
+                <a href="/Profile">PROFILE</a>
+            </div>
+            <div id="guest" >
+                <a href="/signup">SIGN UP</a>
+                <a href="/login">LOGIN</a>
+            </div>
         </div>
     </div>
     <div class="example">
@@ -267,5 +271,22 @@
         </div>
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/check_login')
+            .then(response => response.text())
+            .then(data => {
+                console.log(data)
+                if (data === '0') {
+                    this.getElementById('profile').style.display = 'none';
+                }else{
+                    this.getElementById('guest').style.display = 'none';
+                }
+            })
+            .catch((error) => {
+                console.error('Error getting the response:', error);
+            });
+    });
+</script>
 </html>
 

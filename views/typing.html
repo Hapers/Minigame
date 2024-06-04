@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>TypingTest</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/Typing.css">
 </head>
 <style>
     .right{
@@ -20,8 +20,13 @@
             <a href="/dashboard">HISTORY</a>
         </div>
         <div class="right-nav">
-            <a href="/signup">SIGN UP</a>
-            <a href="/login">LOGIN</a>
+            <div id="profile">
+                <a href="/Profile">PROFILE</a>
+            </div>
+            <div id="guest" >
+                <a href="/signup">SIGN UP</a>
+                <a href="/login">LOGIN</a>
+            </div>
         </div>
     </div>
     <div class="example">
@@ -34,21 +39,64 @@
     </div>
     <div class="stat">
         <div class="css-ocvuti">
-                <h2>Aim Trainer</h2>
-                <p>Click the targets as quickly and accurately as you can. </p>
-                <p>This tests reflexes and hand-eye coordination.</p>
-                <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
-                <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
+                <h2>Typing test</h2>
+                <p>This is a simple test of typing speed</p>
+                <p>This test will test your typing speed and accuracy skills.</p>
+                <p>Start typing to begin.</p>
         </div>
-        <div class="css-ocvuti">           
-                <h2>Aim Trainer</h2>
-                <p>Click the targets as quickly and accurately as you can. </p>
-                <p>This tests reflexes and hand-eye coordination.</p>
-                <p>Once you've clicked 30 targets, your score and average time per target will be displayed.</p>
-                <p>This test is best taken with a mouse or tablet screen. Trackpads are difficult to score well with.</p>
+        <div id="plotlib" class="css-ocvuti">           
         </div>
     </div>
 
     <script src="/js/typing.js"></script>
 </body>
+<script>
+   document.addEventListener('DOMContentLoaded',function() {
+   x =[];
+   y =[];
+   fetch('/get-typing')
+       .then(response => response.text())
+       .then(data => {
+           data = JSON.parse(data);
+           data.forEach(element => {
+               x.push(element.date);
+               y.push(element.score);
+           });
+       })
+       .catch((error) => {
+           console.error('Error getting the response:', error);
+       })
+
+   var data = {
+         y: y,
+         x: x,
+         type: 'scatter'
+     };
+     
+     var layout = {
+         yaxis: {
+             range: [1.5, 6.5],
+         },
+         xaxis: {
+             showticklabels: false
+         },
+         width: calculateDesiredWidth(45) > 600 ? calculateDesiredWidth(45) : 600,
+         height: 350,
+         margin: {
+             l: 10,
+             r: 30,
+             t: 50,
+             b: 50 
+         }
+     };
+     
+     var config = {
+         showLink: true,
+         plotlyServerURL: "https://chart-studio.plotly.com", 
+         staticPlot: true
+     };
+
+     Plotly.newPlot('plotlib', [data], layout, config);
+   });
+ </script>
 </html>
