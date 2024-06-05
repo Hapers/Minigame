@@ -6,8 +6,28 @@ let correctAnswers = 0; // Счетчик правильных ответов
 let resetTimerAndCounter = false; // Флаг для определения, нужно ли сбрасывать таймер и счетчик
 const arrows = ['🢁', '🢃', '🢀', '🢂'];
 const container = document.getElementById('arrowsContainer');
+const start_button = document.getElementById('generateButton');
+function gameover() {  
+    document.getElementById('arrowsContainer').remove();
+    document.getElementById('timerDisplay').remove();
+    document.getElementById('game-div').innerHTML += '<div><a style="text-decoration: none" href="/StratagemHero"><button class="try-againButton" >Start again</button></a></div>'
+}
 
-
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/check_login')
+        .then(response => response.text())
+        .then(data => {
+            console.log(data)
+            if (data === '0') {
+                this.getElementById('profile').style.display = 'none';
+            }else{
+                this.getElementById('guest').style.display = 'none';
+            }
+        })
+        .catch((error) => {
+            console.error('Error getting the response:', error);
+        })
+    });
 
 document.getElementById('generateButton').addEventListener('click', function() {
     resetTimerAndCounter = true; // Изменяем флаг на true при нажатии на кнопку
@@ -17,24 +37,32 @@ document.addEventListener('keydown', function(event) {
     // Prevent default action for arrow keys
     if (keyToArrow[event.key]) {
         event.preventDefault();
-    
+        
     const key = event.key; // Получаем нажатую клавишу
     const pressedArrow = keyToArrow[key];
     checkArrow(pressedArrow);
     }
 });
 
+
+
 function updateTimer() {
     timeLeft--;
     if (timeLeft <= 0) {
         clearInterval(timerId); // Останавливаем таймер, если время истекло
-        alert('Время истекло!'); // Выводим сообщение о том, что время истекло
+        gameover()
+        fetch('/post-stratagemHero', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({score: correctAnswers}),
+        })
     } else {
         // Обновляем отображение ������ремени в интерфейсе
         document.getElementById('timerDisplay').textContent = `Remaining time: ${timeLeft} seconds`;
     }
 }
-
 // Запускаем таймер при первом вызове generateArrows
 function generateArrows() {
     container.innerHTML = ''; // Очищаем контейнер перед генерацией новых стрелок
@@ -127,7 +155,7 @@ function checkArrow(pressedArrow) {
         if (currentArrows.length-1 == index) {
             correctAnswers++;
             document.getElementById('correctAnswersDisplay').textContent = `Correct answers: ${correctAnswers}`;
-            timeLeft+=2;
+            timeLeft+=1;
             document.getElementById('timerDisplay').textContent = `Remaining time: ${timeLeft} seconds`
             generateArrows();
         }
@@ -149,18 +177,3 @@ function checkArrow(pressedArrow) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/check_login')
-        .then(response => response.text())
-        .then(data => {
-            console.log(data)
-            if (data === '0') {
-                this.getElementById('profile').style.display = 'none';
-            }else{
-                this.getElementById('guest').style.display = 'none';
-            }
-        })
-        .catch((error) => {
-            console.error('Error getting the response:', error);
-        })
-    });

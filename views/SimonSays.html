@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>SimonSays</title>
     <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div class="full-nav">
@@ -62,52 +63,60 @@
     <script src="/js/SimonSays.js"></script>
 </body>
 <script>
+    function calculateDesiredWidth(percentageToLeaveOut) {
+          const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+          const desiredWidth = screenWidth - (screenWidth * (percentageToLeaveOut / 100));
+          return desiredWidth;
+      }
    document.addEventListener('DOMContentLoaded',function() {
-   x =[];
-   y =[];
-   fetch('/get-simonSays')
-       .then(response => response.text())
-       .then(data => {
-           data = JSON.parse(data);
-           data.forEach(element => {
-               x.push(element.date);
-               y.push(element.score);
-           });
-       })
-       .catch((error) => {
-           console.error('Error getting the response:', error);
-       })
+    fetch('/get-simonSays')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            let x =[];
+            let y =[];
+   
+            data.forEach(element => {
+                x.push(element.date);
+                y.push(element.score);
+            });
+            var data = [{
+                x: x,
+                y: y,
+                mode: "lines+markers",
+                type: 'scatter'
+            }];
+            
+            var layout = {
+                width: calculateDesiredWidth(55) > 600 ? calculateDesiredWidth(55) : 600,
+                height: 350,
+                margin: {
+                    l: 30,
+                    r: 30,
+                    t: 50,
+                    b: 50 
+                },
+                yaxis: {
+                    dtick: 1, // Ensures that the step between ticks is 1 unit, thus showing only whole numbers
+                    tickformat: ".0f" // Formats the ticks to show no decimal places
+                }
+            };
+            var config = {
+                showLink: true,
+                plotlyServerURL: "https://chart-studio.plotly.com", 
+                staticPlot: true
+            };
 
-   var data = {
-         y: y,
-         x: x,
-         type: 'scatter'
-     };
-     
-     var layout = {
-         yaxis: {
-             range: [1.5, 6.5],
-         },
-         xaxis: {
-             showticklabels: false
-         },
-         width: calculateDesiredWidth(45) > 600 ? calculateDesiredWidth(45) : 600,
-         height: 350,
-         margin: {
-             l: 10,
-             r: 30,
-             t: 50,
-             b: 50 
-         }
-     };
-     
-     var config = {
-         showLink: true,
-         plotlyServerURL: "https://chart-studio.plotly.com", 
-         staticPlot: true
-     };
-
-     Plotly.newPlot('plotlib', [data], layout, config);
+            Plotly.newPlot('plotlib', data, layout, config);
+                })
+            .catch((error) => {
+                console.error('Error getting the response:', error);
+            })
+   
    });
  </script>
 </html>

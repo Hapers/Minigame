@@ -1,4 +1,4 @@
-        let strictMode = false;
+        let strictMode = true;
         let powerOn = false;
         const sequence = [];
         let userSequence = [];
@@ -47,6 +47,13 @@
                     if (strictMode) {
                         alert(`Game over! Press Start to retry 
                         from level 1.\nFINAL SCORE: ${level}`);
+                        fetch('/post-simonSays', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({score: level}),
+                        })
                         togglePower();
                         startGame();
                     } else {

@@ -8,7 +8,6 @@ const gameOver = document.querySelector('#gameOver');
 const backhome = document.querySelector('#backhome');
 const final = document.querySelector('#final');
 const btn = document.querySelector('a');
-
 var window_h = window.innerHeight;
 var window_w = window.innerWidth;
 
@@ -116,7 +115,7 @@ function trackScore() {
 
         gameOver.style.display = 'inherit';//show game over
         backhome.style.display = 'inherit';
-    
+        
 
         if (missed == 0) {
             accuracy2 = 100;
@@ -132,6 +131,13 @@ function trackScore() {
             document.getElementById("final").innerHTML = "Good job you hit all the targets with an accuracy of " + accuracy2 + "%";
             final.style.animation = "moveFinal 1.5s";
         }
+        fetch('/post-aimTrainer', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({score: accuracy2})
+        })
         playAgain();
     }
 }

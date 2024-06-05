@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let timerId;
     let characters = -1;
     // Append the cursor to the input text container
-
-
     fetch('/get-sentence', {
         method: 'GET',
         headers: {
@@ -55,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const lastSpan = inputText.querySelector('.incomplete');
         const wrongSpan = inputText.querySelector('.wrong');
         if (!wrongSpan && key != 'Backspace') {
-            console.log(lastSpan.textContent + ' ?= ' + key);
             if (lastSpan.textContent == key) {
                 lastSpan.className = 'right';
                 if (!inputText.querySelector('.incomplete')){
@@ -86,8 +83,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function endGame() {
         clearInterval(timerId);
-        
-        timerDisplay.textContent = (`Your WPM is: ${((characters/ timer)*12).toFixed(1)}`);
+        let score = ((characters/ timer)*12).toFixed(1);
+        timerDisplay.textContent = (`Your WPM is: ${score}`);
+        gameover(score)
+        fetch('/post-typingGame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({score: score})
+        })
+    }
+
+
+    function gameover(score) {  
+        document.getElementById('inputText').remove()
+        document.getElementById('game-div').innerHTML += '<div><a style="text-decoration: none" href="/typing"><button class="try-againButton" >Start again</button></a></div>'
     }
 });
 
@@ -106,3 +117,4 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error getting the response:', error);
         })
     });
+
