@@ -48,12 +48,10 @@ document.getElementById('generateButton').addEventListener('click', function() {
     let username = document.getElementById('username').value
     let email =document.getElementById('email').value
     let password = document.getElementById('password').value
-    
-    if (!isValidEmail(email) && !email===undefined) {
+    if (!isValidEmail(email) || email.length == 0) {
         alert("Please enter a valid email address.");
         return;
     }
-    
     fetch('/update_userInfo', {
         method: 'PUT',
         headers: {
