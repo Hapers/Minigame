@@ -1,5 +1,5 @@
 
-## Instalacja:
+### Instalacja:
 1. Zachodzicz w CMD, piszesz git clone
 2. piszesz cd minigame,piszesz npm install
 dalej przechodzisz do czeszczi "Konfiguracja połączenia z MongoDB"
