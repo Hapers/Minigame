@@ -1,3 +1,8 @@
+
+## Instalacja:
+1. Zachodzicz w CMD, piszesz git clone
+2. piszesz cd minigame,piszesz npm install
+dalej przechodzisz do czeszczi "Konfiguracja połączenia z MongoDB"
 # Konfiguracja połączenia z MongoDB
 
 Ten przewodnik zawiera instrukcje dotyczące uzyskania niezbędnych informacji do połączenia z bazą danych MongoDB oraz konfiguracji aplikacji do jej używania.
